@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { FLOOR_HEIGHT } from '../constants/game';
+import { FLOOR_HEIGHT, FLOOR_WIDTH } from '../constants/game';
 
 export interface Floor {
   id: number;
@@ -15,7 +15,7 @@ export const useGame = () => {
     {
       id: 1,
       type: 'first',
-      x: 0,
+      x: window.innerWidth / 2 - FLOOR_WIDTH / 2,
       y: window.innerHeight - FLOOR_HEIGHT - 160,
       isFalling: false,
       isPlaced: true,
@@ -24,7 +24,6 @@ export const useGame = () => {
   const [currentFloor, setCurrentFloor] = useState<Floor | null>(null);
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
   const [cameraOffset, setCameraOffset] = useState(0); // Смещение камеры
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
@@ -76,7 +75,7 @@ export const useGame = () => {
     const newFloor: Floor = {
       id: Date.now(),
       type: randomType,
-      x: 0,
+      x: window.innerWidth / 2 - FLOOR_WIDTH / 2,
       y: 140, // Начинаем выше первого этажа, но в видимой области
       isFalling: false,
       isPlaced: false,
@@ -117,19 +116,6 @@ export const useGame = () => {
       setCurrentFloor(null);
       setScore((prev) => prev + 100);
 
-      // Проверяем точность размещения
-      const lastFloor = floors.filter((f) => f.isPlaced).pop();
-      if (lastFloor) {
-        const accuracy = Math.abs(x - lastFloor.x);
-        console.log('Точность размещения:', accuracy);
-        if (accuracy > 50) {
-          // Если этаж сильно смещен
-          console.log('Игра окончена из-за неточности');
-          setGameOver(true);
-          return;
-        }
-      }
-
       // Генерируем следующий этаж
       setTimeout(() => {
         generateNewFloor();
@@ -147,7 +133,7 @@ export const useGame = () => {
       const targetY = lastPlacedFloor
         ? lastPlacedFloor.y - FLOOR_HEIGHT
         : window.innerHeight - FLOOR_HEIGHT - 160;
-      const centerX = 0; // Центр экрана
+      const centerX = window.innerWidth / 2 - FLOOR_WIDTH / 2; // Центр экрана
 
       console.log('Целевая позиция:', { centerX, targetY });
 
@@ -173,7 +159,7 @@ export const useGame = () => {
             ? {
                 ...prev,
                 y: currentY,
-                x: wobble,
+                x: wobble + window.innerWidth / 2 - FLOOR_WIDTH / 2,
               }
             : null
         );
@@ -193,15 +179,14 @@ export const useGame = () => {
   );
 
   const buildFloor = useCallback(() => {
-    console.log('buildFloor вызван, currentFloor:', currentFloor, 'gameOver:', gameOver);
-    if (!currentFloor || gameOver) return;
+    if (!currentFloor) return;
 
     const newFloor = { ...currentFloor, isFalling: true };
     setCurrentFloor(newFloor);
 
     // Анимация падения
     animateFloorFall(newFloor);
-  }, [currentFloor, gameOver, animateFloorFall]);
+  }, [currentFloor, animateFloorFall]);
 
   const resetGame = useCallback(() => {
     console.log('resetGame вызван');
@@ -217,7 +202,6 @@ export const useGame = () => {
     ]);
     setCurrentFloor(null);
     setIsGameStarted(false);
-    setGameOver(false);
     setScore(0);
     setCameraOffset(0); // Сбрасываем смещение камеры
 
@@ -231,7 +215,6 @@ export const useGame = () => {
     currentFloor,
     isGameStarted,
     score,
-    gameOver,
     gameAreaRef,
     cameraOffset, // Экспортируем смещение камеры
     startGame,
