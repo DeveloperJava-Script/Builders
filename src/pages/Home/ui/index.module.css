@@ -1,6 +1,6 @@
 .wrapper {
   background-color: #001d4a;
-  background-image: url('/src/shared/assets/img/stars-bg.png');
+  background-image: url('../../shared/assets/img/stars-bg.png');
   background-repeat: repeat;
   background-size: 75% auto;
   width: 100%;

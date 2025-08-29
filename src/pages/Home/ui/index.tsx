@@ -1,6 +1,6 @@
 import styles from './index.module.css';
-import { useGame } from '@/shared/lib';
-import { Floor } from '@/shared/ui/Floor';
+import { useGame } from '@/shared/lib/useGame';
+import { Floor } from '@/shared/ui/Floor/Floor';
 
 export const Home = () => {
   const {
