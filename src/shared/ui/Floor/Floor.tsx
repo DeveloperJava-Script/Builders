@@ -17,9 +17,7 @@ export const Floor: React.FC<FloorProps> = ({ type, x, y, isFalling, isPlaced })
   return (
     <div className={styles.floor__container}>
       <div
-        className={`${styles.floor} ${isFalling || y === 140 ? styles.falling : ''} ${
-          isPlaced ? styles.placed : ''
-        }`}
+        className={`${styles.floor} ${isFalling ? styles.falling : ''} ${isPlaced ? styles.placed : ''}`}
         style={{
           transform: `translate(${x}px, ${y}px)`,
         }}

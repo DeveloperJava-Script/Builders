@@ -9,8 +9,6 @@ function App() {
   useEffect(() => {
     telegram.expand();
     telegram.disableVerticalSwipes();
-    telegram.setBackgroundColor('#000');
-    telegram.setHeaderColor('#000');
   }, []);
 
   return <Layout />;
