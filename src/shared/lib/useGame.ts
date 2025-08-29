@@ -43,13 +43,35 @@ export const useGame = () => {
     'cap',
   ];
 
-  // Функция для сдвига камеры вверх
+  // Функция для плавного сдвига камеры вверх
   const moveCameraUp = useCallback(() => {
-    setCameraOffset((prev) => prev + 166); // Сдвигаем на 166px вверх
-  }, []);
+    const targetOffset = cameraOffset + 166;
+    const startOffset = cameraOffset;
+    const startTime = Date.now();
+    const duration = 500; // 0.5 секунды на сдвиг камеры
+
+    const animateCamera = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Плавная кривая (ease-out)
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+      const newOffset = startOffset + (targetOffset - startOffset) * easeProgress;
+      setCameraOffset(newOffset);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateCamera);
+      }
+    };
+
+    animateCamera();
+  }, [cameraOffset]);
 
   const generateNewFloor = useCallback(() => {
-    const randomType = floorTypes[Math.floor(Math.random() * floorTypes.length)];
+    const randomType = floorTypes.filter((type) => type !== 'first')[
+      Math.floor(Math.random() * (floorTypes.length - 1))
+    ];
     const newFloor: Floor = {
       id: Date.now(),
       type: randomType,
@@ -73,6 +95,48 @@ export const useGame = () => {
     }, 100);
   }, [generateNewFloor]);
 
+  const placeFloor = useCallback(
+    (floor: Floor, x: number, y: number) => {
+      console.log('placeFloor вызван:', { floor, x, y });
+
+      // Если у нас больше 1 этажей, сдвигаем камеру вверх ДО размещения этажа
+      if (floors.length >= 1) {
+        moveCameraUp();
+      }
+
+      const placedFloor: Floor = {
+        ...floor,
+        x: x,
+        y: y,
+        isFalling: false,
+        isPlaced: true,
+      };
+
+      setFloors((prev) => [...prev, placedFloor]);
+      setCurrentFloor(null);
+      setScore((prev) => prev + 100);
+
+      // Проверяем точность размещения
+      const lastFloor = floors.filter((f) => f.isPlaced).pop();
+      if (lastFloor) {
+        const accuracy = Math.abs(x - lastFloor.x);
+        console.log('Точность размещения:', accuracy);
+        if (accuracy > 50) {
+          // Если этаж сильно смещен
+          console.log('Игра окончена из-за неточности');
+          setGameOver(true);
+          return;
+        }
+      }
+
+      // Генерируем следующий этаж
+      setTimeout(() => {
+        generateNewFloor();
+      }, 500);
+    },
+    [floors, generateNewFloor, moveCameraUp]
+  );
+
   const animateFloorFall = useCallback(
     (floor: Floor) => {
       console.log('animateFloorFall вызван для этажа:', floor);
@@ -95,6 +159,7 @@ export const useGame = () => {
         // Плавная кривая падения (ease-out)
         const easeProgress = 1 - Math.pow(1 - progress, 3);
 
+        // Учитываем текущее смещение камеры при анимации
         currentY = floor.y + (targetY + cameraOffset - floor.y) * easeProgress;
 
         // Добавляем легкое покачивание при падении
@@ -121,7 +186,7 @@ export const useGame = () => {
 
       animate();
     },
-    [floors]
+    [floors, placeFloor]
   );
 
   const buildFloor = useCallback(() => {
@@ -134,47 +199,6 @@ export const useGame = () => {
     // Анимация падения
     animateFloorFall(newFloor);
   }, [currentFloor, gameOver, animateFloorFall]);
-
-  const placeFloor = useCallback(
-    (floor: Floor, x: number, y: number) => {
-      console.log('placeFloor вызван:', { floor, x, y });
-      const placedFloor: Floor = {
-        ...floor,
-        x: x,
-        y: y,
-        isFalling: false,
-        isPlaced: true,
-      };
-
-      setFloors((prev) => [...prev, placedFloor]);
-      setCurrentFloor(null);
-      setScore((prev) => prev + 100);
-
-      // Проверяем точность размещения
-      const lastFloor = floors.filter((f) => f.isPlaced).pop();
-      if (lastFloor) {
-        const accuracy = Math.abs(x - lastFloor.x);
-        console.log('Точность размещения:', accuracy);
-        if (accuracy > 50) {
-          // Если этаж сильно смещен
-          console.log('Игра окончена из-за неточности');
-          setGameOver(true);
-          return;
-        }
-      }
-
-      // Если у нас больше 1 этажей, сдвигаем камеру вверх
-      if (floors.length >= 1) {
-        moveCameraUp();
-      }
-
-      // Генерируем следующий этаж
-      setTimeout(() => {
-        generateNewFloor();
-      }, 500);
-    },
-    [floors, generateNewFloor, moveCameraUp]
-  );
 
   const resetGame = useCallback(() => {
     console.log('resetGame вызван');
@@ -198,6 +222,8 @@ export const useGame = () => {
       cancelAnimationFrame(fallAnimationRef.current);
     }
   }, []);
+
+  console.log(floors);
 
   return {
     floors,
