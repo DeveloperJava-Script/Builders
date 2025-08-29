@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { FLOOR_HEIGHT, FLOOR_WIDTH } from '../constants/game';
+import { FLOOR_HEIGHT } from '../constants/game';
 
 export interface Floor {
   id: number;
@@ -15,7 +15,7 @@ export const useGame = () => {
     {
       id: 1,
       type: 'first',
-      x: window.innerWidth / 2 - FLOOR_WIDTH / 2,
+      x: 0,
       y: window.innerHeight - FLOOR_HEIGHT - 160,
       isFalling: false,
       isPlaced: true,
@@ -75,7 +75,7 @@ export const useGame = () => {
     const newFloor: Floor = {
       id: Date.now(),
       type: randomType,
-      x: window.innerWidth / 2 - FLOOR_WIDTH / 2,
+      x: 0,
       y: 140, // Начинаем выше первого этажа, но в видимой области
       isFalling: false,
       isPlaced: false,
@@ -133,7 +133,7 @@ export const useGame = () => {
       const targetY = lastPlacedFloor
         ? lastPlacedFloor.y - FLOOR_HEIGHT
         : window.innerHeight - FLOOR_HEIGHT - 160;
-      const centerX = window.innerWidth / 2 - FLOOR_WIDTH / 2; // Центр экрана
+      const centerX = 0; // Центр экрана
 
       console.log('Целевая позиция:', { centerX, targetY });
 
@@ -159,7 +159,7 @@ export const useGame = () => {
             ? {
                 ...prev,
                 y: currentY,
-                x: wobble + window.innerWidth / 2 - FLOOR_WIDTH / 2,
+                x: wobble,
               }
             : null
         );
