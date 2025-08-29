@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
+import { FLOOR_HEIGHT } from '../constants/game';
 
 export interface Floor {
   id: number;
@@ -15,7 +16,7 @@ export const useGame = () => {
       id: 1,
       type: 'first',
       x: 0,
-      y: window.innerHeight - 166 - 160,
+      y: window.innerHeight - FLOOR_HEIGHT - 160,
       isFalling: false,
       isPlaced: true,
     },
@@ -45,7 +46,7 @@ export const useGame = () => {
 
   // Функция для плавного сдвига камеры вверх
   const moveCameraUp = useCallback(() => {
-    const targetOffset = cameraOffset + 166;
+    const targetOffset = cameraOffset + FLOOR_HEIGHT;
     const startOffset = cameraOffset;
     const startTime = Date.now();
     const duration = 500; // 0.5 секунды на сдвиг камеры
@@ -143,7 +144,9 @@ export const useGame = () => {
 
       // Находим последний размещенный этаж
       const lastPlacedFloor = floors.filter((f) => f.isPlaced).pop();
-      const targetY = lastPlacedFloor ? lastPlacedFloor.y - 166 : window.innerHeight - 166 - 160;
+      const targetY = lastPlacedFloor
+        ? lastPlacedFloor.y - FLOOR_HEIGHT
+        : window.innerHeight - FLOOR_HEIGHT - 160;
       const centerX = 0; // Центр экрана
 
       console.log('Целевая позиция:', { centerX, targetY });
@@ -207,7 +210,7 @@ export const useGame = () => {
         id: 1,
         type: 'first',
         x: 0,
-        y: window.innerHeight - 166 - 160,
+        y: window.innerHeight - FLOOR_HEIGHT - 160,
         isFalling: false,
         isPlaced: true,
       },
@@ -222,8 +225,6 @@ export const useGame = () => {
       cancelAnimationFrame(fallAnimationRef.current);
     }
   }, []);
-
-  console.log(floors);
 
   return {
     floors,
