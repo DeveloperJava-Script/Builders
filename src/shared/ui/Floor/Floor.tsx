@@ -15,16 +15,18 @@ export const Floor: React.FC<FloorProps> = ({ type, x, y, isFalling, isPlaced })
   };
 
   return (
-    <div
-      className={`${styles.floor} ${isFalling || y === 140 ? styles.falling : ''} ${
-        isPlaced ? styles.placed : ''
-      }`}
-      style={{
-        transform: `translate(${x}px, ${y}px)`,
-      }}
-    >
-      <img src={getFloorImage(type)} alt={`Floor ${type}`} className={styles.floorImage} />
-      {isFalling && <div className={styles.shadow} />}
+    <div className={styles.floor__container}>
+      <div
+        className={`${styles.floor} ${isFalling || y === 140 ? styles.falling : ''} ${
+          isPlaced ? styles.placed : ''
+        }`}
+        style={{
+          transform: `translate(${x}px, ${y}px)`,
+        }}
+      >
+        <img src={getFloorImage(type)} alt={`Floor ${type}`} className={styles.floorImage} />
+        {isFalling && <div className={styles.shadow} />}
+      </div>
     </div>
   );
 };

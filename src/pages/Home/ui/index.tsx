@@ -15,7 +15,7 @@ export const Home = () => {
       {/* Игровая информация */}
       {isGameStarted && (
         <div className={styles.gameInfo}>
-          <div className={styles.score}>Счет: {score + 1}</div>
+          <div className={styles.score}>Счет: {score + 2}</div>
         </div>
       )}
 
