@@ -9,7 +9,7 @@
 
 .floor {
   position: absolute;
-  width: calc(120 * 212 / 166px);
+  width: 153.25px;
   height: 120px;
   transition: transform 0.5s ease-out;
   z-index: 101;
@@ -48,7 +48,6 @@
   height: 20px;
   background: radial-gradient(ellipse, rgba(0, 0, 0, 0.3) 0%, transparent 70%);
   border-radius: 50%;
-  animation: shadowPulse 0.5s ease-in-out infinite;
 }
 
 @keyframes wobble {
@@ -61,18 +60,6 @@
   }
   75% {
     transform: rotate(1deg);
-  }
-}
-
-@keyframes shadowPulse {
-  0%,
-  100% {
-    opacity: 0.3;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translateX(-50%) scale(1.1);
   }
 }
 

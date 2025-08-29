@@ -1,24 +1,24 @@
 @font-face {
-  font-family: "Manrope";
-  src: url("/src/shared/assets/fonts/Manrope-Regular.ttf");
+  font-family: 'Manrope';
+  src: url('/src/shared/assets/fonts/Manrope-Regular.ttf');
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "Manrope";
-  src: url("/src/shared/assets/fonts/Manrope-Medium.ttf");
+  font-family: 'Manrope';
+  src: url('/src/shared/assets/fonts/Manrope-Medium.ttf');
   font-weight: 500;
 }
 
 @font-face {
-  font-family: "Manrope";
-  src: url("/src/shared/assets/fonts/Manrope-SemiBold.ttf");
+  font-family: 'Manrope';
+  src: url('/src/shared/assets/fonts/Manrope-SemiBold.ttf');
   font-weight: 600;
 }
 
 @font-face {
-  font-family: "Manrope";
-  src: url("/src/shared/assets/fonts/Manrope-Bold.ttf");
+  font-family: 'Manrope';
+  src: url('/src/shared/assets/fonts/Manrope-Bold.ttf');
   font-weight: 700;
 }
 
@@ -33,7 +33,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: "Manrope";
+  font-family: 'Manrope';
   scrollbar-width: none;
 }
 
@@ -54,15 +54,13 @@ body {
   position: relative;
   color: #3c3c3c;
   background-color: #f4f4f4;
-  font-family: "Manrope";
+  font-family: 'Manrope';
   overflow-y: scroll;
 }
 
 html {
-  max-width: 30rem;
   height: 100%;
-  margin: 0 auto;
-  font-family: "Manrope";
+  font-family: 'Manrope';
   -ms-overflow-style: none;
   overflow: hidden;
 }
