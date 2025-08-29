@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { FLOOR_HEIGHT } from '../constants/game';
 
 export interface Floor {
@@ -97,8 +97,6 @@ export const useGame = () => {
 
   const placeFloor = useCallback(
     (floor: Floor, x: number, y: number) => {
-      console.log('placeFloor вызван:', { floor, x, y });
-
       // Если у нас больше 1 этажей, сдвигаем камеру вверх ДО размещения этажа
       if (floors.length >= 1) {
         moveCameraUp();
@@ -126,8 +124,6 @@ export const useGame = () => {
 
   const animateFloorFall = useCallback(
     (floor: Floor) => {
-      console.log('animateFloorFall вызван для этажа:', floor);
-
       // Находим последний размещенный этаж
       const lastPlacedFloor = floors.filter((f) => f.isPlaced).pop();
       const targetY = lastPlacedFloor
@@ -135,11 +131,9 @@ export const useGame = () => {
         : window.innerHeight - FLOOR_HEIGHT - 160;
       const centerX = 0; // Центр экрана
 
-      console.log('Целевая позиция:', { centerX, targetY });
-
       let currentY = floor.y;
       const startTime = Date.now();
-      const fallDuration = 2000; // 2 секунды на падение
+      const fallDuration = 500; // 1 секунды на падение
 
       const animate = () => {
         const elapsed = Date.now() - startTime;
@@ -189,7 +183,6 @@ export const useGame = () => {
   }, [currentFloor, animateFloorFall]);
 
   const resetGame = useCallback(() => {
-    console.log('resetGame вызван');
     setFloors([
       {
         id: 1,
@@ -208,6 +201,10 @@ export const useGame = () => {
     if (fallAnimationRef.current) {
       cancelAnimationFrame(fallAnimationRef.current);
     }
+  }, []);
+
+  useEffect(() => {
+    startGame();
   }, []);
 
   return {
