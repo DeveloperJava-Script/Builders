@@ -3,17 +3,8 @@ import { useGame } from '@/shared/lib/useGame';
 import { Floor } from '@/shared/ui/Floor/Floor';
 
 export const Home = () => {
-  const {
-    floors,
-    currentFloor,
-    isGameStarted,
-    score,
-    gameOver,
-    gameAreaRef,
-    cameraOffset,
-    startGame,
-    buildFloor,
-  } = useGame();
+  const { floors, currentFloor, isGameStarted, score, gameAreaRef, cameraOffset, startGame, buildFloor } =
+    useGame();
 
   return (
     <div className={styles.wrapper}>
@@ -62,8 +53,8 @@ export const Home = () => {
             ) : (
               <button
                 onClick={buildFloor}
-                disabled={!currentFloor || gameOver}
-                className={!currentFloor || gameOver ? styles.disabled : ''}
+                disabled={!currentFloor}
+                className={!currentFloor ? styles.disabled : ''}
               >
                 {!currentFloor ? 'Ждем...' : 'Строить'}
               </button>
