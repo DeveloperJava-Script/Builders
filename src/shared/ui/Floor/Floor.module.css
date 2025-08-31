@@ -27,10 +27,6 @@
   z-index: 20;
 }
 
-.falling .floorImage {
-  animation: wobble 0.5s ease-in-out infinite;
-}
-
 .placed {
   z-index: 15;
 }
