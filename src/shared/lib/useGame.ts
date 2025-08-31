@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { FLOOR_HEIGHT } from '../constants/game';
+import { useTelegram } from './useTelegram';
 
 export interface Floor {
   id: number;
@@ -11,6 +12,7 @@ export interface Floor {
 }
 
 export const useGame = () => {
+  const telegram = useTelegram();
   const [floors, setFloors] = useState<Floor[]>([
     {
       id: 1,
@@ -28,6 +30,15 @@ export const useGame = () => {
 
   const gameAreaRef = useRef<HTMLDivElement>(null);
   const fallAnimationRef = useRef<number>(0);
+
+  // Функция для воспроизведения звука строительства
+  const playConstructionSound = useCallback(() => {
+    const audio = new Audio('/success.mp3');
+    audio.volume = 0.5; // Устанавливаем громкость на 50%
+    audio.play().catch((error) => {
+      console.log('Ошибка воспроизведения звука:', error);
+    });
+  }, []);
 
   const floorTypes = [
     'first',
@@ -145,15 +156,12 @@ export const useGame = () => {
         // Учитываем текущее смещение камеры при анимации
         currentY = floor.y + (targetY + cameraOffset - floor.y) * easeProgress;
 
-        // Добавляем легкое покачивание при падении
-        const wobble = Math.sin(progress * Math.PI * 4) * 5 * (1 - progress);
-
         setCurrentFloor((prev) =>
           prev
             ? {
                 ...prev,
                 y: currentY,
-                x: wobble,
+                x: 0,
               }
             : null
         );
@@ -162,6 +170,8 @@ export const useGame = () => {
           fallAnimationRef.current = requestAnimationFrame(animate);
         } else {
           // Этаж приземлился
+          telegram.HapticFeedback.impactOccurred('light');
+          playConstructionSound(); // Воспроизводим звук строительства
           placeFloor(floor, centerX, targetY);
         }
       };
