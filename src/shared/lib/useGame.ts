@@ -48,7 +48,7 @@ export const useGame = () => {
     const targetOffset = cameraOffset + FLOOR_HEIGHT;
     const startOffset = cameraOffset;
     const startTime = Date.now();
-    const duration = 500; // 0.5 секунды на сдвиг камеры
+    const duration = 200; // 0.5 секунды на сдвиг камеры
 
     const animateCamera = () => {
       const elapsed = Date.now() - startTime;
@@ -162,7 +162,6 @@ export const useGame = () => {
           fallAnimationRef.current = requestAnimationFrame(animate);
         } else {
           // Этаж приземлился
-          console.log('Этаж приземлился');
           placeFloor(floor, centerX, targetY);
         }
       };

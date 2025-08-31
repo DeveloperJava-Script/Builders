@@ -1,11 +1,5 @@
 @font-face {
   font-family: 'Manrope';
-  src: url('/src/shared/assets/fonts/Manrope-Regular.ttf');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'Manrope';
   src: url('/src/shared/assets/fonts/Manrope-Medium.ttf');
   font-weight: 500;
 }
@@ -20,6 +14,12 @@
   font-family: 'Manrope';
   src: url('/src/shared/assets/fonts/Manrope-Bold.ttf');
   font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('/src/shared/assets/fonts/Manrope-Regular.ttf');
+  font-weight: 400;
 }
 
 * {
