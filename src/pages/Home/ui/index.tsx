@@ -9,7 +9,7 @@ export const Home = () => {
 
   useEffect(() => {
     // Создаем аудио элемент с атрибутами для автовоспроизведения
-    const audio = new Audio('/src/shared/assets/theme.mp3');
+    const audio = new Audio('/theme.mp3');
     audio.loop = true;
     audio.volume = 0.5;
     audio.preload = 'auto';
