@@ -171,49 +171,92 @@
 }
 
 /* Игровая информация */
-.gameInfo {
+.bar {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 100px;
+  left: 0px;
   z-index: 200;
-  color: white;
-  font-family: 'Manrope', sans-serif;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.score {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 18px;
-  margin-bottom: 10px;
+.bar_referral {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  border: 1px solid #82a2d8;
+  border-radius: 16px;
+  padding: 0 16px;
+  background: #4c607f;
 }
 
-.gameOver {
-  background: rgba(255, 0, 0, 0.8);
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
+.bar_referral__text {
+  color: #1ac9ff;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Manrope';
 }
 
-.gameOverText {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 15px;
+.bar_referral__image {
+  width: 16px;
+  height: 16px;
 }
 
-.restartButton {
-  background: linear-gradient(180deg, #ff6b6b 0%, #ee5a52 100%);
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.bar_stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  border: 1px solid #ec8e00;
+  border-radius: 16px;
+  padding: 0 16px;
+  background: #4c4b33;
+  width: 100px;
+  justify-content: space-between;
 }
 
-.restartButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+.bar_stars__text {
+  color: #ffb500;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Manrope';
+}
+
+.bar_stars__image {
+  width: 22px;
+  height: 22px;
+}
+
+.bar_bag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  width: 64px;
+  border: 1px solid #4adbfa;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #1ac9ff 0%, #2d83ec 100%);
+}
+
+.bar_bag__text {
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 400;
+  font-family: 'Manrope';
+}
+
+.bar_bag__image {
+  width: 42px;
+  height: 45px;
+}
+
+.bar_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
 }

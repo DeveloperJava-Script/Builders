@@ -1,9 +1,51 @@
 import styles from './index.module.css';
 import { useGame } from '@/shared/lib/useGame';
 import { Floor } from '@/shared/ui/Floor/Floor';
+import { useEffect, useRef } from 'react';
 
 export const Home = () => {
   const { floors, currentFloor, score, gameAreaRef, cameraOffset, buildFloor } = useGame();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Создаем аудио элемент с атрибутами для автовоспроизведения
+    const audio = new Audio('/src/shared/assets/theme.mp3');
+    audio.loop = true;
+    audio.volume = 0.5;
+    audio.preload = 'auto';
+
+    // Пытаемся запустить автовоспроизведение
+    const startAudio = async () => {
+      try {
+        await audio.play();
+      } catch {
+        // Добавляем обработчик для запуска при первом клике
+        const handleFirstClick = async () => {
+          try {
+            await audio.play();
+            document.removeEventListener('click', handleFirstClick);
+            document.removeEventListener('touchstart', handleFirstClick);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        document.addEventListener('click', handleFirstClick);
+        document.addEventListener('touchstart', handleFirstClick);
+      }
+    };
+
+    startAudio();
+    audioRef.current = audio;
+
+    // Очистка при размонтировании
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -12,8 +54,21 @@ export const Home = () => {
           <img src={'/images/hook.png'} alt="hook" className={styles.hook__image} />
         </div>
 
-        <div className={styles.gameInfo}>
-          <div className={styles.score}>Счет: {score}</div>
+        <div className={styles.bar}>
+          <div className={styles.bar_referral}>
+            <img src={'/icons/referrals.png'} alt="referral" className={styles.bar_referral__image} />
+            <div className={styles.bar_referral__text}>Referral</div>
+          </div>
+          <div className={styles.bar_info}>
+            <div className={styles.bar_stars}>
+              <div className={styles.bar_stars__text}>{score}</div>
+              <img src={'/icons/star.png'} alt="stars" className={styles.bar_stars__image} />
+            </div>
+            <div className={styles.bar_bag}>
+              <img src={'/icons/bag.png'} alt="stars" className={styles.bar_bag__image} />
+              <div className={styles.bar_bag__text}>Инвентарь</div>
+            </div>
+          </div>
         </div>
 
         <div>
