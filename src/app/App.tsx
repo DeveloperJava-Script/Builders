@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useTelegram } from '../shared/lib/useTelegram';
+import { isMobile, useTelegram } from '../shared/lib/useTelegram';
 
 import { Layout } from '../shared/ui/Layout/Layout.tsx';
 
@@ -12,9 +12,8 @@ function App() {
     telegram.expand();
 
     // Определяем платформу устройства
-    const platform = telegram.platform;
 
-    if (platform === 'android' || platform === 'ios') {
+    if (isMobile()) {
       telegram.requestFullscreen();
     }
 

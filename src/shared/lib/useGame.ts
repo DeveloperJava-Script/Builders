@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { FLOOR_HEIGHT } from '../constants/game';
-import { useTelegram } from './useTelegram';
+import { isMobile, useTelegram } from './useTelegram';
 
 export interface Floor {
   id: number;
@@ -18,7 +18,7 @@ export const useGame = () => {
       id: 1,
       type: 'first',
       x: 0,
-      y: window.innerHeight - FLOOR_HEIGHT - 160,
+      y: window.innerHeight - FLOOR_HEIGHT - (isMobile() ? 20 : 160),
       isFalling: false,
       isPlaced: true,
     },
