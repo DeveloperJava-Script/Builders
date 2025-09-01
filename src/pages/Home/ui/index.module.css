@@ -173,13 +173,13 @@
 /* Игровая информация */
 .bar {
   position: absolute;
-  top: 100px;
   left: 0px;
   z-index: 200;
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
   width: 100%;
+  gap: 8px;
 }
 
 .bar_referral {
@@ -259,4 +259,67 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
+}
+
+/* Прогресс-бар */
+.bar_progress {
+  position: relative;
+  width: 100%;
+  height: 34px;
+  background: #0f2951;
+  border: 1px solid #17438b;
+  border-radius: 8px 16px 16px 8px;
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+}
+
+.progress_star {
+  position: absolute;
+  left: -24px;
+  z-index: 10;
+  display: flex;
+}
+
+.progress_star__image {
+  width: 49px;
+  height: 46px;
+}
+
+.progress_container {
+  height: 6px;
+  width: 100%;
+  background: #19335b;
+  border-radius: 8px;
+  border: 1px solid #17438b;
+  z-index: 1;
+  position: relative;
+  margin: 16px 12px 0px 16px;
+}
+
+.progress_fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #ffb500;
+  border-radius: 8px;
+  z-index: 1;
+  transition: width 0.05s linear;
+}
+
+.progress_bonus {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  margin-top: 12px;
+}
+
+.progress_time {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  position: absolute;
+  right: 12px;
+  top: 5px;
 }
